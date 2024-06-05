@@ -8,8 +8,6 @@ function App() {
   const [bmi, setBmi] = useState("");
   const [message, setMessage] = useState("");
 
-  let imgSrc = "";
-
   let calcBmi = (event) => {
     //prevent submitting
     event.preventDefault();
@@ -18,8 +16,34 @@ function App() {
     } else {
       let bmi = (weight / (height * height)) * 703;
       setBmi(bmi.toFixed(1));
+
+      // logic massage
+      if (bmi < 25) {
+        setMessage("You are underweight");
+      } else {
+        if (bmi >= 25 && bmi < 30) {
+          setMessage("You have a healthy weight");
+        } else {
+          setMessage("You are overweight");
+        }
+      }
     }
   };
+
+  //show image based on bmi calculation
+  let imgSrc;
+  if (bmi < 1) {
+    imgSrc = null;
+  } else {
+    if (bmi < 25) {
+      imgSrc = require("../src/asset/avarta2-removebg-preview.png");
+    } else if (bmi >= 25 && bmi < 30) {
+      imgSrc = require("../src/asset/avatr3-removebg-preview (1).png");
+    } else {
+      imgSrc = require("../src/asset/avarta4-removebg-preview.png");
+    }
+  }
+
   let reload = () => {
     window.location.reload();
   };
@@ -62,7 +86,7 @@ function App() {
         </form>
         <div className="text-center text-white">
           <h3>Your BMI is: {bmi}</h3>
-          <p>{message}</p>
+          <p>({message})</p>
         </div>
         <div className="img-container">
           <img src={imgSrc} alt=""></img>
